@@ -23,13 +23,15 @@ def get_events():
     now_string = current_time.isoformat("T") + "Z"
     then_time = current_time + datetime.timedelta(weeks=2)
     then_string = then_time.isoformat("T") + "Z"
+    config = configparser.ConfigParser()
+    config.read("settings.ini")
     url = "https://www.googleapis.com/calendar/v3/calendars/2oj4t3ocqj3u3uas7o6gflro68@group.calendar.google.com/events"
     params = dict(
-        key="AIzaSyC3-tjkLDuzAD4HAqOiG8HC-aKu0dIuLJk",
-        orderBy="starttime",
-        singleEvents="true",
-        timeMin=now_string,
-        timeMax=then_string
+        key = config["calendar"]["key"],
+        orderBy = "starttime",
+        singleEvents = "true",
+        timeMin = now_string,
+        timeMax = then_string
     )
     resp = requests.get(url=url, params=params)
     data = resp.json()  # Check the JSON Response Content documentation below
