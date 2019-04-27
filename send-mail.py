@@ -67,9 +67,10 @@ def gen_event_text(event):
 
 
 def gen_closing():
-    closings = ["Ich wünsche euch eine schöne Woche!", ""]
+    closings = ["Ich wünsche euch eine schöne Woche!", "Ich freue mich euch da zu sehen!",
+                "Allzeit voran!", "Vivat, crescat, floreat AV Frisia!", "Nicht vergessen, immer schön weiter saufen."]
     salutes = ["Euer", "Mit besten Frisengrüßen,",
-               "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch"]
+               "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch", "Es grüßt euch aus dem feuchten Keller,", "Ich küsse deine Augen amk"]
 
     return random.choice(closings) + "<br>" + random.choice(salutes) + "<br>Carl Fs! <i>xx</i>"
 
