@@ -21,7 +21,7 @@ locale.setlocale(locale.LC_ALL, str('de_DE.UTF-8'))
 def get_events():
     current_time = datetime.datetime.utcnow()
     now_string = current_time.isoformat("T") + "Z"
-    then_time = current_time + datetime.timedelta(weeks=2)
+    then_time = current_time + datetime.timedelta(weeks=1)
     then_string = then_time.isoformat("T") + "Z"
     config = configparser.ConfigParser()
     config.read("settings.ini")
