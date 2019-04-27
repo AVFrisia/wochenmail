@@ -27,11 +27,11 @@ def get_events():
     config.read("settings.ini")
     url = "https://www.googleapis.com/calendar/v3/calendars/2oj4t3ocqj3u3uas7o6gflro68@group.calendar.google.com/events"
     params = dict(
-        key = config["calendar"]["key"],
-        orderBy = "starttime",
-        singleEvents = "true",
-        timeMin = now_string,
-        timeMax = then_string
+        key=config["calendar"]["key"],
+        orderBy="starttime",
+        singleEvents="true",
+        timeMin=now_string,
+        timeMax=then_string
     )
     resp = requests.get(url=url, params=params)
     data = resp.json()  # Check the JSON Response Content documentation below
@@ -66,6 +66,14 @@ def gen_event_text(event):
     return text
 
 
+def gen_closing():
+    closings = ["Ich wünsche euch eine schöne Woche!", ""]
+    salutes = ["Euer", "Mit besten Frisengrüßen,",
+               "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch"]
+
+    return random.choice(closings) + "<br>" + random.choice(salutes) + "<br>Carl Fs! <i>xx</i>"
+
+
 def gen_message(events):
     if not events:
         return """
@@ -91,7 +99,7 @@ def gen_message(events):
     text += "</ul>"
 
     # close it up
-    text += "<p>Euer<br>Carl Fs! <i>xx</i></p></body></html>"
+    text += "<p>" + gen_closing() + "</p></body></html>"
 
     return text
 
