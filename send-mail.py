@@ -123,8 +123,8 @@ def send_message(bodytext):
     msg = MIMEMultipart("alternative")
     msg['Subject'] = "Wochenmail (KW " + week_number + ")"
     msg['From'] = "Johannes Arnold <xx@avfrisia.de>"
-    msg['To'] = "Johannes Arnold <johannes.arnold@stud.uni-hannover.de>"
-    #msg['To'] = "Aktivitas <ac@avfrisia.de>"
+    #msg['To'] = "Johannes Arnold <johannes.arnold@stud.uni-hannover.de>"
+    msg['To'] = "Aktivitas <ac@avfrisia.de>"
     msg['Date'] = datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
     msg['X-Mailer'] = "Consenior-Bot v1.1"
 
