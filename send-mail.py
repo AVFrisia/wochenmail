@@ -17,6 +17,10 @@ import random
 
 locale.setlocale(locale.LC_ALL, str('de_DE.UTF-8'))
 
+# load the settings
+config = configparser.ConfigParser()
+config.read("settings.ini")
+
 
 def get_events():
     current_time = datetime.datetime.today()
