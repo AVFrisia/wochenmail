@@ -72,7 +72,7 @@ def gen_event_text(event):
 
 def gen_opening():
     openings = ["Liebe Bundesbrüder,",
-                "Hochverehrte Bundesbrüder,", "Moin Jungs,", "Werte Bundesbrüder", "Liebe Aktivitas,"]
+                "Hochverehrte Bundesbrüder,", "Moin Jungs,", "Werte Bundesbrüder,", "Liebe Aktivitas,"]
     return random.choice(openings)
 
 
@@ -82,7 +82,7 @@ def gen_closing():
     salutes = ["Euer", "Mit besten Frisengrüßen,",
                "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch", "Es grüßt euch aus dem feuchten Keller,", "Ich küsse deine Augen amk"]
 
-    return random.choice(closings) + "<br>" + random.choice(salutes) + "<br>Carl Fs! <i>xx</i>"
+    return random.choice(closings) + "<br>" + random.choice(salutes) + "<p>Carl Fs! <i>xx</i><br><small>(Verschickt mit dem Consenior-Bot)</small></p>"
 
 
 def gen_message(events):
@@ -104,7 +104,7 @@ def gen_message(events):
     if len(events) > 1:
         text += str(len(events)) + " Veranstaltungen im Kalender:</p><ul>"
     elif len(events) == 1:
-        text += "eine Veranstaltung im Kalender:</p><ul>"
+        text += "nur eine Veranstaltung im Kalender:</p><ul>"
 
     for event in events:
         text += "<li>" + gen_event_text(event) + "</li>"
@@ -123,7 +123,8 @@ def send_message(bodytext):
     msg = MIMEMultipart("alternative")
     msg['Subject'] = "Wochenmail (KW " + week_number + ")"
     msg['From'] = "Johannes Arnold <xx@avfrisia.de>"
-    msg['To'] = "Aktivitas <ac@avfrisia.de>"
+    msg['To'] = "Johannes Arnold <johannes.arnold@stud.uni-hannover.de>"
+    #msg['To'] = "Aktivitas <ac@avfrisia.de>"
     msg['Date'] = datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
     msg['X-Mailer'] = "Consenior-Bot v1.1"
 
