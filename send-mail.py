@@ -78,11 +78,11 @@ def gen_opening():
 
 def gen_closing():
     closings = ["Ich wünsche euch eine schöne Woche!", "Ich freue mich euch da zu sehen!",
-                "Allzeit voran!", "Vivat, crescat, floreat AV Frisia!", "Nicht vergessen, immer schön weiter saufen."]
+                "Allzeit voran!", "Vivat, crescat, floreat AV Frisia!", "Nicht vergessen, immer schön weiter saufen.", "Nicht vergessen: der Östen lebt!"]
     salutes = ["Euer", "Mit besten Frisengrüßen,",
                "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch", "Es grüßt euch aus dem feuchten Keller,", "Ich küsse deine Augen amk"]
 
-    return random.choice(closings) + "<br>" + random.choice(salutes) + "<p>Carl Fs! <i>xx</i><br><small>(Verschickt mit dem Consenior-Bot)</small></p>"
+    return random.choice(closings) + "<br>" + random.choice(salutes) + "<p>Carl Fs! <i>xx</i><br><small>(Via dem Consenior-Bot)</small></p>"
 
 
 def gen_message(events):
