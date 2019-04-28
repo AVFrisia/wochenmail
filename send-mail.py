@@ -17,6 +17,10 @@ import random
 
 locale.setlocale(locale.LC_ALL, str('de_DE.UTF-8'))
 
+# load the settings
+config = configparser.ConfigParser()
+config.read("settings.ini")
+
 
 def get_events():
     current_time = datetime.datetime.today()
@@ -78,7 +82,7 @@ def gen_closing():
     salutes = ["Euer", "Mit besten Frisengrüßen,",
                "Bis zum nächsten Mal,", "Feuchtfröhle Grüße wünscht Euch", "Es grüßt euch aus dem feuchten Keller,", "Ich küsse deine Augen amk"]
 
-    return random.choice(closings) + "<br>" + random.choice(salutes) + "<br>Der Consenior-Bot Fs! <i>xx</i>"
+    return random.choice(closings) + "<br>" + random.choice(salutes) + "<br>Carl Fs! <i>xx</i>"
 
 
 def gen_message(events):
@@ -93,14 +97,15 @@ def gen_message(events):
             </html>
         """
     # prepare standard text
-    text = """<html>
-            <body>
-                <p>Liebe Bundesbrüder,</p>
-    """
+    text = "<html><body><p>" + gen_opening() + "</p>"
     # make list with events
-    text += "<p>diese Woche haben wir " + \
-        str(len(events)) + " Veranstaltungen im Kalender:</p>"
-    text += "<ul>"
+    text += "<p>diese Woche haben wir "
+
+    if len(events) > 1:
+        text += str(len(events)) + " Veranstaltungen im Kalender:</p><ul>"
+    elif len(events) == 1:
+        text += "eine Veranstaltung im Kalender:</p><ul>"
+
     for event in events:
         text += "<li>" + gen_event_text(event) + "</li>"
     text += "</ul>"
@@ -117,10 +122,10 @@ def send_message(bodytext):
     # generate a message
     msg = MIMEMultipart("alternative")
     msg['Subject'] = "Wochenmail (KW " + week_number + ")"
-    msg['From'] = "Consenior-Bot <xx@avfrisia.de>"
-    msg['To'] = "Johannes Arnold <johannes.arnold@stud.uni-hannover.de>"
+    msg['From'] = "Johannes Arnold <xx@avfrisia.de>"
+    msg['To'] = "Aktivitas <johannes.arnold@stud.uni-hannover.de>"
     msg['Date'] = datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S %z")
-    msg['X-Mailer'] = "Consenior-Bot v1.0"
+    msg['X-Mailer'] = "Consenior-Bot v1.1"
 
     # Generate the MIMEText
     html_text = MIMEText(bodytext, "html")
@@ -130,9 +135,6 @@ def send_message(bodytext):
     msg.attach(plain_text)
     msg.attach(html_text)
 
-    # load the settings
-    config = configparser.ConfigParser()
-    config.read("settings.ini")
     hostname = config["smtp"]["server"]
     port = config["smtp"]["port"]
     username = config["smtp"]["username"]
@@ -145,9 +147,9 @@ def send_message(bodytext):
         server.login(username, password)
         # after login, send the mail
         server.send_message(msg)
+        print("Message sent!")
 
 
 event_list = get_events()
-print(gen_message(event_list))
 text = gen_message(event_list)
 send_message(text)
