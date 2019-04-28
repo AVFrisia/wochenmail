@@ -17,10 +17,6 @@ import random
 
 locale.setlocale(locale.LC_ALL, str('de_DE.UTF-8'))
 
-# load the settings
-config = configparser.ConfigParser()
-config.read("settings.ini")
-
 
 def get_events():
     current_time = datetime.datetime.today()
@@ -68,6 +64,12 @@ def gen_event_text(event):
         text += "<br><i>" + event["description"] + "</i>"
 
     return text
+
+
+def gen_opening():
+    openings = ["Liebe Bundesbrüder,",
+                "Hochverehrte Bundesbrüder,", "Moin Jungs,", "Werte Bundesbrüder", "Liebe Aktivitas,"]
+    return random.choice(openings)
 
 
 def gen_closing():
