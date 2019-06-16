@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+from email import encoders
 from email.utils import localtime
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.headerregistry import Address
+from icalendar import Calendar, Event
 import configparser
 import ssl
 import smtplib
@@ -55,7 +58,7 @@ def gen_event_text(event):
         event_start = datetime.datetime.strptime(
             event["start"]["date"], "%Y-%m-%d")
         event_end = datetime.datetime.strptime(
-            event["end"]["date"], "%Y-%m-%d")
+            event["end"]["date"], "%Y-%m-%d") - datetime.timedelta(days=1)
         text += event_start.strftime("Vom %d. bis ") + \
             event_end.strftime("%d. %B")
 
@@ -116,7 +119,35 @@ def gen_message(events):
     return text
 
 
-def send_message(bodytext):
+def gen_cal_attachment(events):
+    cal = Calendar()
+    for event in events:
+        e = Event()
+        e.add("summary", event["summary"])
+        if "dateTime" in event["start"]:
+            e.add("dtstart", datetime.datetime.strptime(
+                event["start"]["dateTime"], "%Y-%m-%dT%H:%M:%S+02:00"))
+            e.add("dtend", datetime.datetime.strptime(
+                event["end"]["dateTime"], "%Y-%m-%dT%H:%M:%S+02:00"))
+        elif "date" in event["start"]:
+            e.add("dtstart", datetime.datetime.strptime(
+                event["start"]["date"], "%Y-%m-%d"))
+            e.add("dtend", datetime.datetime.strptime(
+                event["end"]["date"], "%Y-%m-%d"))
+        e.add("description", event["description"])
+        #e.add("location", event["location"])
+        cal.add_component(e)
+
+    filename = '/tmp/wochenmail.ics'
+
+    f = open(filename, 'wb')
+    f.write(cal.to_ical())
+    f.close()
+
+    return filename
+
+
+def send_message(bodytext, attachment_path):
     week_number = datetime.datetime.today().strftime("%V")
 
     # generate a message
@@ -136,6 +167,25 @@ def send_message(bodytext):
     msg.attach(plain_text)
     msg.attach(html_text)
 
+    # attach the ICS file
+    with open(attachment_path, "rb") as attachment:
+        # Add file as application/octet-stream
+        # Email client can usually download this automatically as attachment
+        part = MIMEBase("text", "calendar")
+        part.set_payload(attachment.read())
+
+        attachment.close
+
+        # Encode file in ASCII characters to send by email
+        # encoders.encode_base64(part)
+
+        # Add header as key/value pair to attachment part
+        part.add_header("Content-Disposition", "attachment",
+                        filename="Veranstaltungen.ics")
+
+        # Add attachment to message and convert message to string
+        msg.attach(part)
+
     hostname = config["smtp"]["server"]
     port = config["smtp"]["port"]
     username = config["smtp"]["username"]
@@ -152,5 +202,6 @@ def send_message(bodytext):
 
 
 event_list = get_events()
+attachment_path = gen_cal_attachment(event_list)
 text = gen_message(event_list)
-send_message(text)
+send_message(text, attachment_path)
