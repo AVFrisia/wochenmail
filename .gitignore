@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# additional settings file
+# (contains secret keys)
+settings.ini
