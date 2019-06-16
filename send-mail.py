@@ -134,8 +134,13 @@ def gen_cal_attachment(events):
                 event["start"]["date"], "%Y-%m-%d"))
             e.add("dtend", datetime.datetime.strptime(
                 event["end"]["date"], "%Y-%m-%d"))
-        e.add("description", event["description"])
-        #e.add("location", event["location"])
+
+        if "description" in event:
+            e.add("description", event["description"])
+
+        if "location" in event:
+            e.add("location", event["location"])
+
         cal.add_component(e)
 
     filename = '/tmp/wochenmail.ics'
