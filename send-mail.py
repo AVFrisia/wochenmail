@@ -182,7 +182,7 @@ def send_message(bodytext, attachment_path):
         attachment.close
 
         # Encode file in ASCII characters to send by email
-        # encoders.encode_base64(part)
+        encoders.encode_base64(part)
 
         # Add header as key/value pair to attachment part
         part.add_header("Content-Disposition", "attachment",
