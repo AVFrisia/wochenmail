@@ -205,8 +205,11 @@ def send_message(bodytext, attachment_path):
         server.send_message(msg)
         print("Message sent!")
 
-
-event_list = get_events()
-attachment_path = gen_cal_attachment(event_list)
-text = gen_message(event_list)
-send_message(text, attachment_path)
+def main():
+    event_list = get_events()
+    attachment_path = gen_cal_attachment(event_list)
+    text = gen_message(event_list)
+    send_message(text, attachment_path)
+  
+if __name__== "__main__":
+  main()
