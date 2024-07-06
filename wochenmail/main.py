@@ -28,6 +28,10 @@ def wochenmail(to):
     cal = get_events(start, end, url)
     events = parse_events(cal)
 
+    if len(events) == 0:
+        print("No events!")
+        return
+
     subj = start.strftime("Wochenmail KW %V")
 
     opening = random.choice(
