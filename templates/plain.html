@@ -39,7 +39,7 @@
         <dd>Ort: {{ event.location }}</dd>
     {% endif %}
     {% if event.description %}
-        <dd>{{ event.description }}</dd>
+        <dd>{{ event.description | replace('\n', '<br>') | safe }}</dd>
     {% endif %}
   {% endfor %}
   </dl>
