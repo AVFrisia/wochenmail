@@ -2,9 +2,9 @@
 import locale
 import datetime
 import random
-from calendarhandler import get_events, parse_events
+from .calendarhandler import get_events, parse_events
 
-from mailhandler import send_mail
+from .mailhandler import send_mail
 
 from apscheduler import Scheduler
 from apscheduler.triggers.cron import CronTrigger
