@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    body {
+        font-family: "Montserrat", sans-serif;
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 2em;
+    }
+
+    h1, h2 {
+        text-align: center;
+        font-family: "Palatino", "Palatino Linotype", "Tex Gyre Pagella", "URW Palladio L", serif;
+    }
+
+    dt {
+        font-weight: bold;
+        color: #487010;
+        margin-top: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>AV Frisia</h1>
+  <h2>{{ title }}</h2>
+  <hr>
+  <p>{{ opening }}</p>
+  <p>{{ message }}</p>
+  <dl>
+  {% for event in events %}
+    <dt>{{ event.start.strftime("%A, %d. %B") }}</dt>
+    <dd><strong>{{ event.name }}</strong></dd>
+    <dd>Beginn: {{ event.start.strftime("%H:%M") }}</dd>
+    {% if event.location %}
+        <dd>Ort: {{ event.location }}</dd>
+    {% endif %}
+    {% if event.description %}
+        <dd>{{ event.description }}</dd>
+    {% endif %}
+  {% endfor %}
+  </dl>
+  <p>{{ closure }}</p>
+  <p>{{ signature }}</p>
+  <hr>
+  <small>PS: Bitte denkt daran, euch bei den betreffenden Veranstaltungen im <a href="https://intern.avfrisia.de/">Internen Bereich</a> an- oder abzumelden!</small>
+</body>
+</html>
