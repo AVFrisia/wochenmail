@@ -3,15 +3,14 @@ import locale
 import datetime
 import random
 from .calendarhandler import get_events, parse_events
-
 from .mailhandler import send_mail
-
 from apscheduler import Scheduler
 from apscheduler.triggers.cron import CronTrigger
+from email.headerregistry import Address
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 locale.setlocale(locale.LC_ALL, str("de_DE.UTF-8"))
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 environment = Environment(
     loader=FileSystemLoader("./templates"),
@@ -39,7 +38,7 @@ def wochenmail(to):
     )
 
     message = (
-        f"diese Woche haben wir {len(events)} Veranstaltungen:"
+        f"diese Woche stehen {len(events)} Veranstaltungen an:"
         if len(events) > 1
         else "diese Woche haben wir nur eine Versanstaltung:"
     )
@@ -61,17 +60,21 @@ def wochenmail(to):
         signature="Euer Vorstand",
     )
 
-    send_mail(to, subj, msg)
+    from_addr = Address("Consenior der AV Frisia", "xx", "avfrisia.de")
+
+    send_mail(from_addr, to, subj, msg)
 
 
 def main():
+    ac = Address("Aktivitas", "ac", "avfrisia.de")
+
     with Scheduler() as scheduler:
         trigger = CronTrigger(day_of_week="mon", hour=0)
 
         scheduler.add_schedule(
             wochenmail,
             trigger=trigger,
-            kwargs={"to": "ac@avfrisia.de"},
+            kwargs={"to": ac},
         )
 
         scheduler.run_until_stopped()

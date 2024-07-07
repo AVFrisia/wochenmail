@@ -1,6 +1,8 @@
 import smtplib, ssl
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+
+from email.message import EmailMessage
+from email.utils import localtime
+
 from os import getenv
 from html2text import html2text
 from css_inline import inline
@@ -9,19 +11,18 @@ from minify_html import minify
 context = ssl.create_default_context()
 
 
-def send_mail(to, subject, htmlmessage):
-    message = MIMEMultipart("alternative")
+def send_mail(from_addr, to_addr, subject, htmlmessage):
+    message = EmailMessage()
     message["Subject"] = subject
-    message["From"] = getenv("SMTP_USER")
-    message["To"] = to
+    message["From"] = from_addr
+    message["To"] = to_addr
+    message["Date"] = localtime()
 
     htmlmessage = inline(minify(htmlmessage))
+    plaintext = html2text(htmlmessage)
 
-    plaintext = MIMEText(html2text(htmlmessage), "plain")
-    text = MIMEText(htmlmessage, "html")
-
-    message.attach(plaintext)
-    message.attach(text)
+    message.set_content(plaintext)
+    message.add_alternative(htmlmessage, subtype="html")
 
     host = getenv("SMTP_HOST")
     port = int(getenv("SMTP_PORT", 587))
@@ -31,6 +32,6 @@ def send_mail(to, subject, htmlmessage):
     with smtplib.SMTP(host, port) as server:
         server.starttls(context=context)
         server.login(user, passwd)
-        server.sendmail(user, to, message.as_string())
+        server.send_message(message)
 
-    print(f"Sent mail to {to}")
+    print(f"Sent mail to {to_addr}")
