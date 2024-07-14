@@ -1,7 +1,6 @@
 import icalendar
 import requests
 import datetime
-from operator import itemgetter
 
 
 def get_events(start: datetime, end: datetime, url: str) -> icalendar.Calendar:
@@ -24,4 +23,4 @@ def parse_events(cal: icalendar.Calendar):
                 "end": event.decoded("DTEND"),
             }
         )
-    return sorted(events, key=itemgetter("start"))
+    return sorted(events, key=lambda d: str(d["start"]))
