@@ -66,6 +66,9 @@ def wochenmail(to):
 
 
 def main():
+    test = Address("Johannes", "johannes.arnold", "stud.uni-hannover.de")
+    wochenmail(test)
+
     ac = Address("Aktivitas", "ac", "avfrisia.de")
 
     with Scheduler() as scheduler:
