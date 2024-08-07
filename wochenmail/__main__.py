@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 import locale
-import datetime
-import random
-from .calendarhandler import get_events, parse_events
-from .mailhandler import send_mail
 from apscheduler import Scheduler
 from apscheduler.triggers.cron import CronTrigger
 from email.headerregistry import Address
+import logging
+import datetime
+from email.headerregistry import Address
+import random
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from wochenmail.calendarhandler import fetch_events
+from wochenmail.mailhandler import send_mail
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 locale.setlocale(locale.LC_ALL, str("de_DE.UTF-8"))
-
 
 environment = Environment(
     loader=FileSystemLoader("./templates"),
@@ -20,15 +23,14 @@ environment = Environment(
 template = environment.get_template("plain.html")
 
 
-def wochenmail(to):
+def send_wochenmail(to):
     start = datetime.datetime.now()
     end = start + datetime.timedelta(weeks=1)
     url = "https://intern.avfrisia.de/adm_program/modules/events/events_ical.php"
-    cal = get_events(start, end, url)
-    events = parse_events(cal)
+    events = fetch_events(start, end, url)
 
     if len(events) == 0:
-        print("No events!")
+        logger.warning("No events!")
         return
 
     subj = start.strftime("Wochenmail KW %V")
@@ -67,7 +69,7 @@ def wochenmail(to):
 
 def main():
     test = Address("Johannes", "johannes.arnold", "stud.uni-hannover.de")
-    wochenmail(test)
+    send_wochenmail(test)
 
     ac = Address("Aktivitas", "ac", "avfrisia.de")
 
@@ -75,7 +77,7 @@ def main():
         trigger = CronTrigger(day_of_week="mon", hour=0)
 
         scheduler.add_schedule(
-            wochenmail,
+            send_wochenmail,
             trigger=trigger,
             kwargs={"to": ac},
         )

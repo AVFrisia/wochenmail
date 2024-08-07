@@ -6,6 +6,10 @@ authors = ["Johannes Arnold <johannes.arnold@stud.uni-hannover.de>"]
 license = "GNU"
 readme = "README.md"
 
+packages = [
+    { include = "wochenmail" },
+]
+
 [tool.poetry.dependencies]
 python = "^3.12"
 jinja2 = "^3.1.4"
@@ -15,6 +19,9 @@ html2text = "^2024.2.26"
 icalendar = "^5.0.13"
 minify-html = "^0.15.0"
 apscheduler = "4.0.0a5"
+
+[tool.poetry.dev-dependencies]
+black = "^24.8.0"
 
 
 [build-system]

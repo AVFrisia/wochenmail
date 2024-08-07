@@ -1,17 +1,20 @@
 import icalendar
 import requests
 import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def get_events(start: datetime, end: datetime, url: str) -> icalendar.Calendar:
+def fetch_events(start: datetime, end: datetime, url: str):
     params = dict(
         date_from=start.strftime("%Y-%m-%d"), date_to=end.strftime("%Y-%m-%d")
     )
+    logger.info(
+        f"Requesting events between {params['date_from']} and {params['date_to']}"
+    )
     resp = requests.get(url=url, params=params)
-    return icalendar.Calendar.from_ical(resp.text)
-
-
-def parse_events(cal: icalendar.Calendar):
+    cal = icalendar.Calendar.from_ical(resp.text)
     events = list()
     for event in cal.walk("VEVENT"):
         events.append(
@@ -23,4 +26,5 @@ def parse_events(cal: icalendar.Calendar):
                 "end": event.decoded("DTEND"),
             }
         )
+    logger.info(f"Parsed {len(events)} events")
     return sorted(events, key=lambda d: str(d["start"]))

@@ -1,13 +1,13 @@
 import smtplib, ssl
-
 from email.message import EmailMessage
 from email.utils import localtime
-
 from os import getenv
 from html2text import html2text
 from css_inline import inline
 from minify_html import minify
+import logging
 
+logger = logging.getLogger(__name__)
 context = ssl.create_default_context()
 
 
@@ -33,5 +33,4 @@ def send_mail(from_addr, to_addr, subject, htmlmessage):
         server.starttls(context=context)
         server.login(user, passwd)
         server.send_message(message)
-
-    print(f"Sent mail to {to_addr}")
+        logger.info(f"Sent mail to {to_addr}")
