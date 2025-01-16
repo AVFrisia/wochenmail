@@ -17,7 +17,7 @@ def send_mail(from_addr, to_addr, subject, htmlmessage):
     message["To"] = to_addr
     message["Date"] = localtime()
 
-    htmlmessage = inline(message)
+    htmlmessage = inline(htmlmessage)
     plaintext = html2text(htmlmessage)
 
     message.set_content(plaintext)
