@@ -4,7 +4,6 @@ from email.utils import localtime
 from os import getenv
 from html2text import html2text
 from css_inline import inline
-from minify_html import minify
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,7 +17,7 @@ def send_mail(from_addr, to_addr, subject, htmlmessage):
     message["To"] = to_addr
     message["Date"] = localtime()
 
-    htmlmessage = inline(minify(htmlmessage))
+    htmlmessage = inline(message)
     plaintext = html2text(htmlmessage)
 
     message.set_content(plaintext)

@@ -17,7 +17,6 @@ css-inline = "^0.14.1"
 requests = "^2.32.3"
 html2text = "^2024.2.26"
 icalendar = "^5.0.13"
-minify-html = "^0.15.0"
 apscheduler = "4.0.0a5"
 
 [tool.poetry.dev-dependencies]
