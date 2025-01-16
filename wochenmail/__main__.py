@@ -72,7 +72,6 @@ def main():
     send_wochenmail(test)
 
     ac = Address("Aktivitas", "ac", "avfrisia.de")
-
     with Scheduler() as scheduler:
         trigger = CronTrigger(day_of_week="mon", hour=0)
 

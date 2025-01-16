@@ -1,0 +1,4 @@
+services:
+  mailer:
+    build: .
+    env_file: smtp.env
