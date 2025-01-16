@@ -29,21 +29,18 @@ def send_wochenmail(to):
     url = "https://intern.avfrisia.de/adm_program/modules/events/events_ical.php"
     events = fetch_events(start, end, url)
 
-    if len(events) == 0:
-        logger.warning("No events!")
-        return
-
     subj = start.strftime("Wochenmail KW %V")
 
     opening = random.choice(
         ["Liebe Bundesbrüder,", "Hochverehrte Bundesbrüder,", "Werte Bundesbrüder,"]
     )
 
-    message = (
-        f"diese Woche stehen {len(events)} Veranstaltungen an:"
-        if len(events) > 1
-        else "diese Woche haben wir nur eine Versanstaltung:"
-    )
+    if len(events) == 1:
+        message = "diese Woche steht nur eine Veranstaltung an:"
+    elif len(events) == 0:
+        message = "diese Woche stehen keine Veranstaltungen an."
+    else:
+        message = f"diese Woche stehen {len(events)} Veranstaltungen an:"
 
     closure = random.choice(
         [
@@ -68,7 +65,7 @@ def send_wochenmail(to):
 
 
 def main():
-    test = Address("Johannes", "johannes.arnold", "stud.uni-hannover.de")
+    test = Address("Johannes", "johannes", "rnold.online")
     send_wochenmail(test)
 
     ac = Address("Aktivitas", "ac", "avfrisia.de")
