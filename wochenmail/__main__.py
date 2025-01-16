@@ -47,6 +47,15 @@ def send_wochenmail(to):
             "Einen guten Start in die Woche wünscht euch",
             "Viel Spaß dabei!",
             "Viele Grüße",
+            "Mit freundlichen Grüßen",
+            "Freundliche Grüße",
+            "Mit besten Grüßen",
+            "Hochachtungsvoll",
+            "Mit vorzüglicher Hochachtung",
+            "Mit bester Empfehlung",
+            "Mit Brudergruß und Handschlag",
+            "Mit bundesbrüderlichen Grüßen",
+            "GaLiGrü",
         ]
     )
 
