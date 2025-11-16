@@ -26,7 +26,7 @@ template = environment.get_template("plain.html")
 def send_wochenmail(to):
     start = datetime.datetime.now()
     end = start + datetime.timedelta(weeks=1)
-    url = "https://intern.avfrisia.de/adm_program/modules/events/events_ical.php"
+    url = "https://intern.avfrisia.de/modules/events/events_function.php?mode=export&user_uuid=c581a927-db52-4a6f-9dd8-47a66b769aef"
     events = fetch_events(start, end, url)
 
     subj = start.strftime("Wochenmail KW %V")
