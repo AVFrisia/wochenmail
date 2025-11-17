@@ -29,6 +29,7 @@ def send_mail(from_addr, to_addr, subject, htmlmessage):
     passwd = getenv("SMTP_PASSWORD")
 
     with smtplib.SMTP(host, port) as server:
+        server.connect(host, port)
         server.starttls(context=context)
         server.login(user, passwd)
         server.send_message(message)
