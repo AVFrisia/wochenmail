@@ -8,8 +8,8 @@ import datetime
 from email.headerregistry import Address
 import random
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from wochenmail.calendarhandler import fetch_events
-from wochenmail.mailhandler import send_mail
+from calendarhandler import fetch_events
+from mailhandler import send_mail
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
