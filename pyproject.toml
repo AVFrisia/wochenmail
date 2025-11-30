@@ -19,10 +19,6 @@ html2text = "^2024.2.26"
 icalendar = "^5.0.13"
 apscheduler = "4.0.0a5"
 
-[tool.poetry.dev-dependencies]
-black = "^24.8.0"
-
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
