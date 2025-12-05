@@ -3,7 +3,7 @@ FROM ghcr.io/astral-sh/uv:debian
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install \
+    apt-get install -y \
         locales && \
     rm -r /var/lib/apt/lists/*
 
