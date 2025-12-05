@@ -23,6 +23,21 @@ environment = Environment(
 template = environment.get_template("plain.html")
 
 
+# Checks if an event is all day or not
+def has_time(value):
+    # currently, admidio only provides DTSTART, i.e. does not differentiate
+    # between "all-day" events and those going from 00:00 to 23:59.
+    return not (
+        value["start"].hour == 0
+        and value["start"].minute == 0
+        and value["end"].hour == 23
+        and value["end"].minute == 59
+    )
+    # return isinstance(value, datetime)
+
+environment.filters["has_time"] = has_time
+
+
 def send_wochenmail(to):
     start = datetime.datetime.now()
     end = start + datetime.timedelta(weeks=1)

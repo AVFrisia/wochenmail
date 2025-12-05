@@ -38,7 +38,7 @@
   {% for event in events %}
     <dt>{{ event.start.strftime("%A, %d. %B") }}</dt>
     <dd><strong>{{ event.name }}</strong></dd>
-    {% if event.start.__class__.__name__ == "datetime" %}
+    {% if event | has_time %}
       <dd>Beginn: {{ event.start.strftime("%H:%M") }}</dd>
     {% endif %}
     {% if event.location %}
