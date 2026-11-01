@@ -1,4 +1,4 @@
 services:
   mailer:
     build: .
-    restart: always
+    env_file: .env

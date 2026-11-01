@@ -24,7 +24,7 @@ def send_mail(from_addr, to_addr, subject, htmlmessage):
     message.add_alternative(htmlmessage, subtype="html")
 
     host = getenv("SMTP_HOST")
-    port = int(getenv("SMTP_PORT", 587))
+    port = int(getenv("SMTP_PORT") or 587)
     user = getenv("SMTP_USER")
     passwd = getenv("SMTP_PASSWORD")
 

@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
-import locale
-from apscheduler import Scheduler
-from apscheduler.triggers.cron import CronTrigger
-from email.headerregistry import Address
-import logging
 import datetime
-from email.headerregistry import Address
+import locale
+import logging
+import os
 import random
+from email.headerregistry import Address
+from email.utils import getaddresses
+from zoneinfo import ZoneInfo
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 from calendarhandler import fetch_events
 from mailhandler import send_mail
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-locale.setlocale(locale.LC_ALL, str("de_DE.UTF-8"))
+
+locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+
+BERLIN = ZoneInfo("Europe/Berlin")
+
+DEFAULT_CALENDAR_URL = "https://intern.avfrisia.de/modules/events/events_function.php?mode=export&user_uuid=c581a927-db52-4a6f-9dd8-47a66b769aef"
+DEFAULT_MAIL_TO = "Aktivitas <ac@avfrisia.de>"
+DEFAULT_MAIL_FROM = "Consenior der AV Frisia <xx@avfrisia.de>"
 
 environment = Environment(
     loader=FileSystemLoader("./templates"),
@@ -35,13 +44,25 @@ def has_time(value):
     )
     # return isinstance(value, datetime)
 
+
 environment.filters["has_time"] = has_time
 
 
-def send_wochenmail(to):
-    start = datetime.datetime.now()
+def parse_addresses(value: str) -> list[Address]:
+    addresses = [
+        Address(name, addr_spec=address)
+        for name, address in getaddresses([value])
+        if address
+    ]
+    if not addresses:
+        raise ValueError(f"No valid email address found in {value!r}")
+    return addresses
+
+
+def send_wochenmail():
+    start = datetime.datetime.now(BERLIN)
     end = start + datetime.timedelta(weeks=1)
-    url = "https://intern.avfrisia.de/modules/events/events_function.php?mode=export&user_uuid=c581a927-db52-4a6f-9dd8-47a66b769aef"
+    url = os.getenv("CALENDAR_URL") or DEFAULT_CALENDAR_URL
     events = fetch_events(start, end, url)
 
     subj = start.strftime("Wochenmail KW %V")
@@ -83,26 +104,15 @@ def send_wochenmail(to):
         signature="Euer Vorstand",
     )
 
-    from_addr = Address("Consenior der AV Frisia", "xx", "avfrisia.de")
+    from_addr = parse_addresses(os.getenv("MAIL_FROM") or DEFAULT_MAIL_FROM)[0]
+    to_addrs = parse_addresses(os.getenv("MAIL_TO") or DEFAULT_MAIL_TO)
 
-    send_mail(from_addr, to, subj, msg)
+    logger.info(f"Sending {subj} to {', '.join(str(a) for a in to_addrs)}")
+    send_mail(from_addr, to_addrs, subj, msg)
 
 
 def main():
-    test = Address("Johannes", "johannes", "rnold.online")
-    send_wochenmail(test)
-
-    ac = Address("Aktivitas", "ac", "avfrisia.de")
-    with Scheduler() as scheduler:
-        trigger = CronTrigger(day_of_week="mon", hour=0)
-
-        scheduler.add_schedule(
-            send_wochenmail,
-            trigger=trigger,
-            kwargs={"to": ac},
-        )
-
-        scheduler.run_until_stopped()
+    send_wochenmail()
 
 
 if __name__ == "__main__":
