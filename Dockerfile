@@ -1,4 +1,5 @@
 FROM ghcr.io/astral-sh/uv:debian
+LABEL org.opencontainers.image.description Automatisierte Wochenmail der AV Frisia
 
 ARG DEBIAN_FRONTEND=noninteractive
 
