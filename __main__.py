@@ -89,9 +89,21 @@ def send_wochenmail():
             "Hochachtungsvoll",
             "Mit vorzüglicher Hochachtung",
             "Mit bester Empfehlung",
-            "Mit Brudergruß und Handschlag",
+            "Auf eine erfolgreiche Woche",
+            "In diesem Sinne: Allzeit Voran!"
+            "In ewiger Treue",
+            "Mit einem kräftigen Prosit",
+            "Allzeit eine Handbreit Bier im Glase",
+            "Möge der Durst niemals enden",
+            "Mit verbindlichstem Bierernst",
+            "Stets zu Diensten und niemals ganz nüchtern",
+            "Mit freundlichem Schluckauf",
+            "Auf dass die Woche kurz und das Fass stets voll sei",
+            "Mit einem dreifachen Vivat, Crescat, Floreat!",
+            "Mit den besten Wünschen für Leib und Seele",
+            "Mit untertänigsten Grüßen",
+            "Mit dem gebotenen Ernst und der nötigen Promillezahl",
             "Mit bundesbrüderlichen Grüßen",
-            "GaLiGrü",
         ]
     )
 
