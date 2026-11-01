@@ -2,10 +2,8 @@ name: Wochenmail
 
 on:
   schedule:
-    # GitHub Actions cron runs in UTC. 23:00 UTC on Sunday is 00:00 Monday in
-    # winter (CET) and 01:00 Monday in summer (CEST), i.e. just after midnight
-    # in Berlin. The working time zone is set below as well.
-    - cron: "0 23 * * 0"
+    # Run in the night from Sunday to Monday at 0:00 UTC
+    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 permissions:
