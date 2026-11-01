@@ -101,7 +101,7 @@ def send_wochenmail():
         message=message,
         events=events,
         closure=closure,
-        signature="Euer Vorstand",
+        signature="i.A. Carl Fs!",
     )
 
     from_addr = parse_addresses(os.getenv("MAIL_FROM") or DEFAULT_MAIL_FROM)[0]
