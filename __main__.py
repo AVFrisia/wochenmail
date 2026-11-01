@@ -68,7 +68,14 @@ def send_wochenmail():
     subj = start.strftime("Wochenmail KW %V")
 
     opening = random.choice(
-        ["Liebe Bundesbrüder,", "Hochverehrte Bundesbrüder,", "Werte Bundesbrüder,"]
+        [
+            "Liebe Bundesbrüder,",
+            "Hochverehrte Bundesbrüder,",
+            "Werte Bundesbrüder,",
+            "Werte Bezieher unseres Wochenrundschreibens,",
+            "Hochlöbliche Bundesbrüder,",
+            "Werte Träger von Band und Verantwortung,",
+        ]
     )
 
     if len(events) == 1:
@@ -90,7 +97,7 @@ def send_wochenmail():
             "Mit vorzüglicher Hochachtung",
             "Mit bester Empfehlung",
             "Auf eine erfolgreiche Woche",
-            "In diesem Sinne: Allzeit Voran!"
+            "In diesem Sinne: Allzeit Voran!",
             "In ewiger Treue",
             "Mit einem kräftigen Prosit",
             "Allzeit eine Handbreit Bier im Glase",
